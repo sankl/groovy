@@ -1,1 +1,20 @@
-Light groovy launcher with ability to bootstrap new versions of groovy rimtime.
+Lightweight groovy launcher 
+---------------------------
+
+with ability to bootstrap specified versions of groovy runtime.
+Groovy version is specified by GROOVY_VER variable in gr.bat launcher. 
+
+If there is 'lib' directory near the script to execute, the launcher adds to classpath all jars from there.
+It's handy to try things not present in maven repositories.
+
+The launcher configures Grapes to be downloaded near itself (handy to port).
+
+Installation
+------------
+
+Put somewhere this directory, tune PATH to it, set up JAVA_HOME environment variable to point on JDK
+
+Use
+---
+
+$> gr hello_world.gr

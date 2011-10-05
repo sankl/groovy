@@ -8,6 +8,7 @@ if (new File('lib').with { exists() && isDirectory() }) {
     def lc = new org.codehaus.groovy.tools.LoaderConfiguration(requireMain:false)
     lc.configure(new ByteArrayInputStream("""
         load .
+        load lib/
         load lib/*.jar
         load lib/**/*.jar
         """.getBytes()))
