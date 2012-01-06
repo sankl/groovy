@@ -1,0 +1,35 @@
+import static groovy.grape.Grape.grab
+Object.metaClass.static.logInit = { config=null ->
+        def cl = this.class.classLoader
+        if (config != null) {
+            grab(group:'org.slf4j', module:'slf4j-api', version:'1.6.1', classLoader:cl)
+            grab(group:'ch.qos.logback', module:'logback-core', version:'0.9.24', classLoader:cl)
+            grab(group:'ch.qos.logback', module:'logback-classic', version:'0.9.24', classLoader:cl)
+            def writer = new StringWriter()
+            new groovy.xml.MarkupBuilder(writer).configuration config 
+            def lf = cl.loadClass("org.slf4j.LoggerFactory", true)
+            def lc = lf.getILoggerFactory();
+            def configurator = cl.loadClass("ch.qos.logback.classic.joran.JoranConfigurator", true).newInstance();
+            configurator.setContext(lc);
+            lc.reset(); 
+            configurator.doConfigure(new ByteArrayInputStream(writer.toString().getBytes()))
+            if (lc.getStatusManager().getLevel() > 0) {
+                println "************************************"
+                println "Log configuration has some problems:"
+                println writer.toString()
+                println cl.loadClass("ch.qos.logback.core.util.StatusPrinter", true).print(lc)
+                println "************************************"
+            }
+        }
+    }
+
+Object.metaClass.static.getLog = { 
+        def _m = delegate.class.metaClass.pickMethod('__log__',[] as Class[])
+        if (_m) return _m.invoke(delegate.class, [])
+        println "SYSTEM: initializing log for "+delegate.class
+        def cl = this.class.classLoader
+        def lf = cl.loadClass("org.slf4j.LoggerFactory", true) //; println lf.class.hashCode()
+        _logger = lf.getLogger(delegate.class)
+        delegate.class.metaClass.static.__log__ = { _logger }
+        return _logger
+    }
