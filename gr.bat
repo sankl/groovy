@@ -1,8 +1,7 @@
 @echo off
 
-set GROOVY_VER=1.8.2
-::set JAVA_DEBUG=-verbose:class -Dgroovy.grape.report.downloads=true 
-::set JAVA_DEBUG=-Dgroovy.grape.report.downloads=true 
+set GROOVY_VER=1.8.5
+::set JAVA_DEBUG=-Dgroovy.grape.report.downloads=true
 set JAVA_OPTS=-Dfile.encoding=utf8 %JAVA_OPTS%
 
 set BASE=%~dp0

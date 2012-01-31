@@ -7,7 +7,6 @@ def loader
 if (new File('lib').with { exists() && isDirectory() }) {
     def lc = new org.codehaus.groovy.tools.LoaderConfiguration(requireMain:false)
     lc.configure(new ByteArrayInputStream("""
-        load ./
         load lib/
         load lib/*.jar
         load lib/**/*.jar
@@ -16,11 +15,9 @@ if (new File('lib').with { exists() && isDirectory() }) {
 } else {
     loader = new org.codehaus.groovy.tools.RootLoader(new URL[0], null)
 }
+loader.addURL(new File(".").toURI().toURL())
 grab(group:'org.codehaus.groovy', module:'groovy-all', version:System.properties['groovy.version'], classLoader:loader)
 grab(group:'org.apache.ivy', module:'ivy', version:'2.2.0', classLoader:loader)
 
 //println "CLASSPATH: " + loader.getURLs()
-new File(System.properties['groovy.base'], "inject").eachFile {
-        it.name.endsWith(".gr") && loader.loadClass("groovy.util.Eval", true).me(it.text)
-    }
 loader.loadClass("groovy.lang.GroovyShell", true).main(args)

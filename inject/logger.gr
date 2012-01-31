@@ -1,8 +1,9 @@
 import static groovy.grape.Grape.grab
 Object.metaClass.static.logInit = { config=null ->
-        def cl = this.class.classLoader
+        def cl = this.class.classLoader.rootLoader
         if (config != null) {
             grab(group:'org.slf4j', module:'slf4j-api', version:'1.6.1', classLoader:cl)
+            grab(group:'org.slf4j', module:'log4j-over-slf4j', version:'1.6.4', classLoader:cl)
             grab(group:'ch.qos.logback', module:'logback-core', version:'0.9.24', classLoader:cl)
             grab(group:'ch.qos.logback', module:'logback-classic', version:'0.9.24', classLoader:cl)
             def writer = new StringWriter()
