@@ -7,7 +7,7 @@ Now you can execute Groovy scripts with:
 
     #> gr hello.gr
 
-Active groovy version can be updated with `GROOVY_VERSION` variable in `groovy.gr` script. 
+Active Groovy version can be updated with `GROOVY_VERSION` variable in `groovy.gr` script. 
 Required Groovy will be fetched as Grape on a first run.
 
 If there is a `./lib` directory in your CWD, all jars from there will be automatically added to `CLASSPATH`.
