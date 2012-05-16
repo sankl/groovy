@@ -2,6 +2,7 @@ Easy groovy starter
 -------------------
 
 Easy set up to run Groovy scripts: download, extract, add this directory to system `PATH`.
+
 Now you can execute Groovy scripts with:
 
     #> gr hello.gr
