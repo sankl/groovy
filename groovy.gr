@@ -1,14 +1,17 @@
 // Groovy version to use
-GROOVY_VERSION = "1.8.5"
+GROOVY_VERSION = "1.8.0"
+
+// Where this script resides
+def base = new File(getClass().protectionDomain.codeSource.location.path).parent
 
 // Enable Grapes logging
 System.properties['groovy.grape.report.downloads'] = "true"
 // Put fetched Grapes near this script
-System.properties['grape.root'] = new File(getClass().protectionDomain.codeSource.location.path).parent
+System.properties['grape.root'] = base
 // Use UTF-8 everywhere
 System.properties['file.encoding'] = "utf8"
 
-// Load all jars from ./lib directory near executing script
+// If there is ./lib in CWD, load all jars from there
 def loader
 if (new File('lib').with { exists() && isDirectory() }) {
     def lc = new org.codehaus.groovy.tools.LoaderConfiguration(requireMain:false)
@@ -22,11 +25,14 @@ if (new File('lib').with { exists() && isDirectory() }) {
     loader = new org.codehaus.groovy.tools.RootLoader(new URL[0], null)
 }
 loader.addURL(new File(".").toURI().toURL())
+loader.addURL(new File("${base}/lib/ivy-${org.apache.ivy.Ivy.ivyVersion}.jar").toURI().toURL())
 
-// Fetch required version of Groovy
 import static groovy.grape.Grape.grab
 (GroovySystem.version != GROOVY_VERSION) &&
-    grab(group:'org.codehaus.groovy', module:'groovy-all', version:GROOVY_VERSION, classLoader:loader)
+    // fetch required version of Groovy
+    grab(group:'org.codehaus.groovy', module:'groovy-all', version:GROOVY_VERSION, classLoader:loader) ||
+    // or use one we have bootstrapped from
+    loader.addURL(new File("${base}/lib/groovy-all-${GroovySystem.version}.jar").toURI().toURL())
 
 //println "CLASSPATH: " + loader.getURLs()
 loader.loadClass("groovy.lang.GroovyShell", true).main(args)
