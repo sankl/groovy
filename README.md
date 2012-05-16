@@ -1,4 +1,4 @@
-Easy groovy starter 
+Easy Groovy starter 
 -------------------
 
 To run Groovy scripts: download (~6MB) and prepend this directory to system `PATH`.
