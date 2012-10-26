@@ -1,4 +1,4 @@
 #!/bin/bash
 
 base=$(cd `dirname $0`; pwd)
-java -cp "$base/lib/*" groovy.ui.GroovyMain "$base/groovy.gr" $*
+java -cp "$base/boot/*" groovy.ui.GroovyMain "$base/groovy.gr" $*

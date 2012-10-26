@@ -1,1 +1,1 @@
-@java -cp "%~dp0lib/*" groovy.ui.GroovyMain "%~dp0groovy.gr" %*
+@java -cp "%~dp0boot/*" groovy.ui.GroovyMain "%~dp0groovy.gr" %*

@@ -1,5 +1,9 @@
-// Groovy version to use
-GROOVY_VERSION = "1.8.0"
+// default Groovy version to use
+def version = "1.8.0"
+if (args[0] == '-use') {
+    version = args[1]
+    args = args[2..-1]
+}
 
 // Where this script resides
 def base = new File(getClass().protectionDomain.codeSource.location.path).parent
@@ -28,11 +32,11 @@ loader.addURL(new File(".").toURI().toURL())
 loader.addURL(new File("${base}/lib/ivy-${org.apache.ivy.Ivy.ivyVersion}.jar").toURI().toURL())
 
 import static groovy.grape.Grape.grab
-(GroovySystem.version != GROOVY_VERSION) &&
+(GroovySystem.version != version) &&
     // fetch required version of Groovy
-    grab(group:'org.codehaus.groovy', module:'groovy-all', version:GROOVY_VERSION, classLoader:loader) ||
+    grab(group:'org.codehaus.groovy', module:'groovy-all', version:version, classLoader:loader) ||
     // or use one we have bootstrapped from
-    loader.addURL(new File("${base}/lib/groovy-all-${GroovySystem.version}.jar").toURI().toURL())
+    loader.addURL(new File("${base}/boot/groovy-all-${GroovySystem.version}.jar").toURI().toURL())
 
 //println "CLASSPATH: " + loader.getURLs()
-loader.loadClass("groovy.lang.GroovyShell", true).main(args)
+loader.loadClass("groovy.lang.GroovyShell", true).main(args as String[])
