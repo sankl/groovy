@@ -1,11 +1,8 @@
-// default Groovy version to use
-def version = "1.8.0"
-if (args[0] == '-use') {
-    version = args[1]
-    args = args[2..-1]
-}
+// Groovy version to use (default is what's in boot directory, can be also specified as string: "1.8.0")
+def version = GroovySystem.version
+(args[0] == '-use') && (version = args[1]) && (args = args[2..-1])
 
-// Where this script resides
+// Directory, where this script resides
 def base = new File(getClass().protectionDomain.codeSource.location.path).parent
 
 // Enable Grapes logging
