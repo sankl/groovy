@@ -10,7 +10,7 @@ Now you are able to run Groovy scripts by `gr` command:
     #> gr -e "printf '%s: %s', 'Hello from Groovy', GroovySystem.version"
     Hello from Groovy: 1.8.0
 
-Or, if you put the script in hello.gr file:
+Or, if you put the script in `hello.gr` file:
 
     #> gr hello.gr
     Hello from Groovy: 1.8.0
@@ -20,10 +20,10 @@ Different version of Groovy can be specified with `-use` option:
     #> gr -use 1.8.1 hello.gr
     Hello from Groovy: 1.8.1
 
-Default Groovy version can be updated in `groovy.gr` script.
+Default Groovy version can be manually updated in `groovy.gr` script.
 
-If script depends on some component from Maven repository,
-you can specify it as Grape and fetch automatically on a first run:
+If script requires some component from Maven repository,
+it's possible to specify dependency with Grape and fetch it automatically on a first run:
 
     #> cat hello.gr
     @Grab(group='commons-logging', module='commons-logging', version='1.1.1')
@@ -34,13 +34,14 @@ you can specify it as Grape and fetch automatically on a first run:
     INFO: Hello from Groovy: 1.8.0
 
 Grape logging is enabled, so you can watch download progress. 
-All Grapes are fetched to `./grapes` near the launchers.
+All Grapes are fetched to `./grapes` directory near the launchers.
 So it's easy to port Groovy scripts together with executing environment.
 
-Sometimes required jar is absent in any Maven repo. Or you've built it yourself.
-You can put this jar in `./lib` directory near the script and it will be added to `CLASSPATH`:
+Sometimes required component is absent in any Maven repo.
+Or you've built classes/jars by yourself.
+You can put them in `./lib` directory near the script and they will be added to jvm `CLASSPATH`:
 
-    #> ls lib
+    #> ls ./lib
     commons-logging-1.1.1.jar
 
     #> cat hello.gr
